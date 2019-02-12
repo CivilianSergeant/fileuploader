@@ -4,7 +4,7 @@ class Test
 {
     public static function message()
     {
-        // some update
+        // some update again
         return 'Hello World, Composer!';
     }
 }
