@@ -1,0 +1,21 @@
+{
+    
+    "name": "muhimel/fileuploader",
+    "description": "File uplolader project",
+    "authors":[
+        {
+            "name":"himel",
+            "email": "mu.himel@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^5.3.2 || ^7.0"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Muhimel\\": "src/"
+        }
+    }
+}
