@@ -1,5 +1,6 @@
 <?php
 use Muhimel\Helper\HtmlHelper;
+
 ?>
 <!doctype html>
 <html>
@@ -33,6 +34,7 @@ use Muhimel\Helper\HtmlHelper;
                 background:#fff;
             }
         </style>
+        
     </head>
     <body>
         <div id="fileUploaderRoot" v-cloak>
@@ -59,7 +61,7 @@ use Muhimel\Helper\HtmlHelper;
                                 <progress class="position-absolute" max="100" :ref="'file-progress-'+index" value="0" ></progress>
                                 <span class="text-danger" v-if="file.errorMessage">{{file.errorMessage}}</span>
                                 <button type="button" class="btn btn-danger btn-sm pull-right  ml-1" @click="removeFile(index)" >X</button>
-                                <button v-if="!file.errorMessage" type="button" class="btn btn-success btn-sm pull-right" @click="uploadFile(index)" >Upload</button>
+                                <button v-if="file.uploadFlag"  type="button" class="btn btn-success btn-sm pull-right" @click="uploadFile(index)" >Upload {{file.uploadFlag}}</button>
                             </td>
                         </tr>
                     </tbody>
@@ -78,7 +80,8 @@ use Muhimel\Helper\HtmlHelper;
                     maxFileSize:0,
                     errorMessage:'',
                     files:[],
-                    csrfToken:'',
+                    csrfToken:'<?php echo (HtmlHelper::getOption("csrf_token")) ?>',
+                    uploadUrl:'<?php echo HtmlHelper::getUploadUrl() ?>',
                     header:{
                         headers: {'X-CSRF-Token': this.csrfToken,'Content-Type': 'multipart/form-data'},
                         onUploadProgress: function( progressEvent ) {
@@ -123,7 +126,7 @@ use Muhimel\Helper\HtmlHelper;
                     },
                     handleFileUpload:function(){
                         this.clearMessage();
-                        this.files = [];
+                        //this.files = [];
 
                         for(let f in this.$refs.files.files){
                             let fileObj = this.$refs.files.files[f];
@@ -135,7 +138,9 @@ use Muhimel\Helper\HtmlHelper;
                                     fileSize = Math.round(fileObj.size/(1024*1024))
                                     fileObj.errorMessage = 'Maximum File Size '+this.maxFileSize+'Mb, Your file size is :'+fileSize+'Mb';
                                     console.log('h',fileObj)
+                                    fileObj.uploadFlag=false;
                                 }
+                                fileObj.uploadFlag=true;
                                 this.files.push(fileObj);
                                 this.reader.readAsDataURL(fileObj);
                             }
@@ -152,11 +157,16 @@ use Muhimel\Helper\HtmlHelper;
                         let file =this.files[index];
                         let formData = new FormData();
                         formData.append('file', file);
-                        axios.post(base_url+uri+'/upload-process',formData,{
-                            headers: {'X-CSRF-Token': csrfToken,'Content-Type': 'multipart/form-data'},
+                        let obj = this;
+                        axios.post(this.uploadUrl,formData,{
+                            headers: {'X-CSRF-Token': this.csrfToken,'Content-Type': 'multipart/form-data'},
                             onUploadProgress: function( progressEvent ) {
                                 
                                 this.files[index].uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
+                                if(this.files[index].uploadPercentage==100){
+                                    obj.files[index].uploadFlag=false;
+                                    obj.$forceUpdate();
+                                }
                                 this.$refs['file-progress-'+index][0].value=this.files[index].uploadPercentage;
                                 
                             }.bind({$refs:this.$refs,files:this.files,index:index})

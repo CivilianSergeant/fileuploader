@@ -62,4 +62,22 @@ class HtmlHelper
     {
         self::$options = $options;
     } 
+
+    public static function getOption($optionName)
+    {
+        if(!empty(self::$options[$optionName])){
+            return self::$options[$optionName];
+        }
+        return null;
+    }
+
+    public static function getUploadUrl()
+    {
+        $url = '';
+        if(!empty(self::$options) && !empty(self::$options['base_url']) && !empty(self::$options['upload_url'])){
+            $url = self::$options['base_url'].self::$options['upload_url'];
+        }
+        
+        return $url;
+    }
 }
