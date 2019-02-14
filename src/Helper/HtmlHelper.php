@@ -5,7 +5,7 @@ class HtmlHelper
 {
     private static $options;
 
-    private function getAssetPath($assetPath){
+    private static function getAssetPath($assetPath){
         return '../src/assets/'.$assetPath;
     }
 
