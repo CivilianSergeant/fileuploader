@@ -14,6 +14,11 @@ class Uploader
         exit;
     }
 
+    public static function setOptions($option)
+    {
+        HtmlHelper::setOptions($option);
+    }
+
     public static function upload(UploaderInterface $uploadInterface=null)
     {
         if(!empty($uploadInterface)){
@@ -21,11 +26,11 @@ class Uploader
         }
         
         $targetDir = HtmlHelper::getOption('target_dir');
-        $targetDir = !(empty($targetDir))? $targetDir : '/uploads/'; 
-        $filename = dirname(__DIR__).$targetDir.basename($_FILES['file']['name']);
+        $targetDir = (!empty($targetDir))? $targetDir : dirname(__DIR__).$targetDir.'/uploads/'; 
+        $filename = $targetDir.basename($_FILES['file']['name']);
 
         move_uploaded_file($_FILES['file']['tmp_name'],$filename);
-        
+
         if(!empty($uploadInterface)){
             $uploadInterface->afterUpload($_FILES['file'],$filename);
         }

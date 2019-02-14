@@ -55,7 +55,6 @@ class HtmlHelper
     public static function script($scriptFileName)
     {
         echo '<script src="'.self::getAssetPath($scriptFileName).'"></script>';
-        //echo '<script src="'+self::getAssetPath($scriptFileName)+'"></script>';
     }
 
     public static function setOptions($options)
