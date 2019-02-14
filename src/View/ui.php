@@ -61,14 +61,14 @@ use Muhimel\Helper\HtmlHelper;
                                 <progress class="position-absolute" max="100" :ref="'file-progress-'+index" value="0" ></progress>
                                 <span class="text-danger" v-if="file.errorMessage">{{file.errorMessage}}</span>
                                 <button type="button" class="btn btn-danger btn-sm pull-right  ml-1" @click="removeFile(index)" >X</button>
-                                <button v-if="file.uploadFlag"  type="button" class="btn btn-success btn-sm pull-right" @click="uploadFile(index)" >Upload {{file.uploadFlag}}</button>
+                                <button v-if="file.uploadFlag"  type="button" class="btn btn-success btn-sm pull-right" @click="uploadFile(index)" >Upload</button>
                             </td>
                         </tr>
                     </tbody>
 
                 </table>
                 <hr/>
-                <button class="btn btn-info btn-sm pull-right" v-on:click="submitFile()">Upload All</button>
+                <button type="button" class="btn btn-info btn-sm pull-right" v-on:click="submitFile()">Upload All</button>
             </div>
         </div>
         <script>
@@ -85,7 +85,6 @@ use Muhimel\Helper\HtmlHelper;
                     header:{
                         headers: {'X-CSRF-Token': this.csrfToken,'Content-Type': 'multipart/form-data'},
                         onUploadProgress: function( progressEvent ) {
-                            console.log(progressEvent)
                             //this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
                         }.bind(this)
                     },
@@ -103,8 +102,10 @@ use Muhimel\Helper\HtmlHelper;
                         this.$refs.files.click();
                     },
                     removeFile:function(index){
-                        console.log(index);
-                        this.files.splice(index,1)
+                        this.files.splice(index,1);
+                        if(this.files.length==0){
+                            window.location.reload();
+                        }
                         this.refreshPreview();
                     },
                     refreshPreview(){
@@ -121,37 +122,37 @@ use Muhimel\Helper\HtmlHelper;
                             }
                         },10);
                     },
-                    onLoadImage:function(index){
-                        console.log(event,index);
-                    },
                     handleFileUpload:function(){
                         this.clearMessage();
-                        //this.files = [];
-
+        
                         for(let f in this.$refs.files.files){
                             let fileObj = this.$refs.files.files[f];
+                            let count = this.files.length;
+                            count = (count<0)? 0: count;
+                            
                             if(typeof fileObj == 'object'){
-                                this.reader =  new FileReader();
-                                this.reader.onload = this.handleOnFileReader(this.reader,f);
+                                
+                                reader =  new FileReader();
+                                reader.onload = this.handleOnFileReader(reader,count);
                                 fileObj.uploadPercentage = 0;
                                 if(fileObj.size >= (this.maxFileSize*1024*1024)){
                                     fileSize = Math.round(fileObj.size/(1024*1024))
                                     fileObj.errorMessage = 'Maximum File Size '+this.maxFileSize+'Mb, Your file size is :'+fileSize+'Mb';
-                                    console.log('h',fileObj)
+                                    
                                     fileObj.uploadFlag=false;
                                 }
                                 fileObj.uploadFlag=true;
                                 this.files.push(fileObj);
-                                this.reader.readAsDataURL(fileObj);
+                                
+                                reader.readAsDataURL(fileObj);
+                                
                             }
                         }
                     },
                     submitFile:function(){
-                        
                         for(let f in this.files){
                             this.uploadFile(f);
                         }
-                        
                     },
                     uploadFile:function(index){
                         let file =this.files[index];
