@@ -161,7 +161,7 @@ use Muhimel\Helper\HtmlHelper;
                                     
                                     fileObj.uploadFlag=false;
                                 }
-                                console.log(fileObj);
+                                
                                 fileObj.uploadFlag=true;
                                 this.files.push(fileObj);
                                 this.renderThumbnail(fileObj);
@@ -196,6 +196,11 @@ use Muhimel\Helper\HtmlHelper;
                             if(res.data.code != 200){
                                 this.files[index].errorMessage = res.data.message;  
                                 obj.$forceUpdate();
+                            }else if(res.data.code==200){
+                                if(window.uploadedFiles == undefined){
+                                    winodw.uploadedFiles = [];
+                                }
+                                winodw.uploadedFiles.push(res.data.uploaded);
                             }
                         }).catch(error=>{
 
