@@ -69,8 +69,7 @@ class HtmlHelper
             return self::$options[$optionName];
         }
         if($optionName == 'accept'){
-            $accept = self::$options[$optionName];
-            return (!empty($accept))? $accept : 'image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+            return (!empty(self::$options[$optionName]))? self::$options[$optionName] : 'image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document';
         }
         return null;
     }

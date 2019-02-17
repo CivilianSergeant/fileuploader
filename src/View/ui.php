@@ -55,8 +55,10 @@ use Muhimel\Helper\HtmlHelper;
                 <table class="table table-borderd">
                     <tbody>
                         <tr v-for="(file,index) in files" :key="index" >
-                            <td class="position-relative">
-                                <img class="pull-left mb-2 mr-1" :ref="'file-'+index" src="" />
+                            <td class="position-relative" >
+                                <img v-if="file.isDOC" class="pull-left mb-2 mr-1" src="./../src/assets/img/doc-512.png"/>
+                                <img v-if="file.isPDF" class="pull-left mb-2 mr-1" src="./../src/assets/img/pdf-512.png"/>
+                                <img v-if="file.isIMG" class="pull-left mb-2 mr-1" :ref="'file-'+index" src="" />
                                 <span>{{file.name}}</span>
                                 <progress class="position-absolute" max="100" :ref="'file-progress-'+index" value="0" ></progress>
                                 <span class="text-danger ml-1" v-if="file.errorMessage">{{file.errorMessage}}</span>
@@ -65,7 +67,6 @@ use Muhimel\Helper\HtmlHelper;
                             </td>
                         </tr>
                     </tbody>
-
                 </table>
                 <hr/>
                 <button type="button" class="btn btn-info btn-sm pull-right" v-on:click="submitFile()">Upload All</button>
@@ -97,6 +98,23 @@ use Muhimel\Helper\HtmlHelper;
                 methods:{
                     clearMessage:function(){
                         this.errorMessage = '';
+                    },
+                    renderThumbnail:function(file){
+                        if(file.type.match('image') != null){
+                            file.isIMG = true;
+                            file.isPDF = false;
+                            file.isDOC = false;
+                        }
+                        if(file.type.match('pdf') != null){
+                            file.isIMG = false;
+                            file.isPDF = true;
+                            file.isDOC = false;
+                        }
+                        if(file.type.match('doc') != null){
+                            file.isIMG = false;
+                            file.isPDF = false;
+                            file.isDOC = true;
+                        }
                     },
                     addFiles(){
                         this.$refs.files.click();
@@ -141,9 +159,10 @@ use Muhimel\Helper\HtmlHelper;
                                     
                                     fileObj.uploadFlag=false;
                                 }
+                                console.log(fileObj);
                                 fileObj.uploadFlag=true;
                                 this.files.push(fileObj);
-                                
+                                this.renderThumbnail(fileObj);
                                 reader.readAsDataURL(fileObj);
                                 
                             }
