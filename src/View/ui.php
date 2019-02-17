@@ -198,7 +198,7 @@ use Muhimel\Helper\HtmlHelper;
                                 obj.$forceUpdate();
                             }else if(res.data.code==200){
                                 if(window.uploadedFiles == undefined){
-                                    winodw.uploadedFiles = [];
+                                    window.uploadedFiles = [];
                                 }
                                 window.uploadedFiles.push(res.data.uploaded);
                             }
