@@ -32,11 +32,13 @@ class Uploader
             $uploadInterface->beforeUpload($_FILES['file']);
         }
 
-        $filename = $targetDir.basename($_FILES['file']['name']);
+        $uploadedFileName = basename($_FILES['file']['name']);
+        $filename = $targetDir.$uploadedFileName;
         move_uploaded_file($_FILES['file']['tmp_name'],$filename);
 
         if(!empty($uploadInterface)){
-            $uploadInterface->afterUpload($_FILES['file'],$filename);
+            $_FILES['file']['uploaded_file_name'] = $uploadedFileName;
+            $uploadInterface->afterUpload($_FILES['file']);
         }
     }
 }

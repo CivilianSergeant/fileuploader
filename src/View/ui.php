@@ -69,7 +69,7 @@ use Muhimel\Helper\HtmlHelper;
                     </tbody>
                 </table>
                 <hr/>
-                <button type="button" class="btn btn-info btn-sm pull-right" v-on:click="submitFile()">Upload All</button>
+                <button v-if="files.length" type="button" class="btn btn-info btn-sm pull-right" v-on:click="submitFile()">Upload All</button>
             </div>
         </div>
         <script>
