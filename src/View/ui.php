@@ -59,7 +59,7 @@ use Muhimel\Helper\HtmlHelper;
                                 <img class="pull-left mb-2 mr-1" :ref="'file-'+index" src="" />
                                 <span>{{file.name}}</span>
                                 <progress class="position-absolute" max="100" :ref="'file-progress-'+index" value="0" ></progress>
-                                <span class="text-danger" v-if="file.errorMessage">{{file.errorMessage}}</span>
+                                <span class="text-danger ml-1" v-if="file.errorMessage">{{file.errorMessage}}</span>
                                 <button type="button" class="btn btn-danger btn-sm pull-right  ml-1" @click="removeFile(index)" >X</button>
                                 <button v-if="file.uploadFlag"  type="button" class="btn btn-success btn-sm pull-right" @click="uploadFile(index)" >Upload</button>
                             </td>
@@ -172,7 +172,10 @@ use Muhimel\Helper\HtmlHelper;
                                 
                             }.bind({$refs:this.$refs,files:this.files,index:index})
                         }).then(res=>{
-
+                            if(res.data.code != 200){
+                                this.files[index].errorMessage = res.data.message;  
+                                obj.$forceUpdate();
+                            }
                         }).catch(error=>{
 
                         });
