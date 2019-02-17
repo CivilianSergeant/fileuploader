@@ -8,7 +8,7 @@ class HtmlHelper
     private static $assets = array();
 
     // Get Asset Path
-    private static function getAssetPath($fileName)
+    public static function getAssetPath($fileName)
     {
         if(empty(self::$assetPath)){
             return '../src/assets/'.$fileName;

@@ -56,8 +56,8 @@ use Muhimel\Helper\HtmlHelper;
                     <tbody>
                         <tr v-for="(file,index) in files" :key="index" >
                             <td class="position-relative" >
-                                <img v-if="file.isDOC" class="pull-left mb-2 mr-1" src="./../src/assets/img/doc-512.png"/>
-                                <img v-if="file.isPDF" class="pull-left mb-2 mr-1" src="./../src/assets/img/pdf-512.png"/>
+                                <img v-if="file.isDOC" class="pull-left mb-2 mr-1" src="<?php echo HtmlHelper::getAssetPath('img/doc-512.png'); ?>"/>
+                                <img v-if="file.isPDF" class="pull-left mb-2 mr-1" src="<?php echo HtmlHelper::getAssetPath('img/pdf-512.png'); ?>"/>
                                 <img v-if="file.isIMG" class="pull-left mb-2 mr-1" :ref="'file-'+index" src="" />
                                 <span>{{file.name}}</span>
                                 <progress class="position-absolute" max="100" :ref="'file-progress-'+index" value="0" ></progress>
@@ -136,7 +136,9 @@ use Muhimel\Helper\HtmlHelper;
                         setTimeout(()=>{
                             if(this.files[index] != undefined){
                                 this.files[index].src=reader.result;
-                                this.$refs['file-'+index][0].src=this.files[index].src;
+                                if(this.files[index].isIMG){
+                                    this.$refs['file-'+index][0].src=this.files[index].src;
+                                }
                             }
                         },10);
                     },
