@@ -21,14 +21,18 @@ class Uploader
 
     public static function upload(UploaderInterface $uploadInterface=null)
     {
-        if(!empty($uploadInterface)){
-            $uploadInterface->beforeUpload($_FILES['file']);
-        }
-        
         $targetDir = HtmlHelper::getOption('target_dir');
         $targetDir = (!empty($targetDir))? $targetDir : dirname(__DIR__).$targetDir.'/uploads/'; 
-        $filename = $targetDir.basename($_FILES['file']['name']);
 
+        if(!empty($uploadInterface)){
+            $_FILES['file']['uploadDir'] = $targetDir;
+            if(!file_exists($targetDir)){
+                mkdir($targetDir,0777,true);
+            }
+            $uploadInterface->beforeUpload($_FILES['file']);
+        }
+
+        $filename = $targetDir.basename($_FILES['file']['name']);
         move_uploaded_file($_FILES['file']['tmp_name'],$filename);
 
         if(!empty($uploadInterface)){
