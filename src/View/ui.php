@@ -45,7 +45,7 @@ use Muhimel\Helper\HtmlHelper;
                     <div class="large-12 medium-12 small-12 cell">
                         <button class="btn btn-info btn-sm" v-on:click="addFiles()">Add Files</button>
                     </div>
-                    <input type="file" id="file" ref="files" accept="image/*" multiple v-on:change="handleFileUpload()"/>
+                    <input type="file" id="file" ref="files" accept="<?php echo HtmlHelper::getOption('accept')?>" multiple v-on:change="handleFileUpload()"/>
                 </label>
                     
                 </div>

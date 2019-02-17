@@ -64,8 +64,13 @@ class HtmlHelper
 
     public static function getOption($optionName)
     {
+       
         if(!empty(self::$options[$optionName])){
             return self::$options[$optionName];
+        }
+        if($optionName == 'accept'){
+            $accept = self::$options[$optionName];
+            return (!empty($accept))? $accept : 'image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document';
         }
         return null;
     }

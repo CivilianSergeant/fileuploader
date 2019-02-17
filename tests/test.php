@@ -12,5 +12,6 @@ HtmlHelper::setAsset('js/axios/axios.min.js');
 Uploader::getUI([
     'base_url'=> $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/',
     'upload_url'=>'file-uploader/muhimel/fileuploader/tests/process.php',
-    'csrf_token'=> 'testToken'
+    'csrf_token'=> 'testToken',
+    'accept'=>'image/*'
 ]);
