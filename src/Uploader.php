@@ -25,7 +25,7 @@ class Uploader
         $targetDir = (!empty($targetDir))? $targetDir : dirname(__DIR__).$targetDir.'/uploads/'; 
 
         if(!empty($uploadInterface)){
-            $_FILES['file']['uploadDir'] = $targetDir;
+            $_FILES['file']['uploadDir'] = substr($targetDir,strpos($targetDir,'uploads'));
             if(!file_exists($targetDir)){
                 mkdir($targetDir,0777,true);
             }
