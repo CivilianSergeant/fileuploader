@@ -200,6 +200,7 @@ use Muhimel\Helper\HtmlHelper;
                                 if(window.uploadedFiles == undefined){
                                     window.uploadedFiles = [];
                                 }
+                                // store uploaded data
                                 window.uploadedFiles.push(res.data.uploaded);
                             }
                         }).catch(error=>{
