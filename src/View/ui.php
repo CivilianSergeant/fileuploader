@@ -230,7 +230,12 @@ use Muhimel\Helper\HtmlHelper;
                                 this.files[index].errorMessage = res.data.message;  
                                 obj.$forceUpdate();
                             }else if(res.data.code==200){
-                                window.parent.ProcessChildWindow(this.uploaderObject,res.data.uploaded);
+                                if(window.uploadedFiles == undefined){
+                                    window.uploadedFiles = [];
+                                }
+                                // store uploaded data
+                                window.uploadedFiles.push(res.data.uploaded);
+                                // window.parent.ProcessChildWindow(this.uploaderObject,res.data.uploaded);
                             }
                         }).catch(error=>{
 
