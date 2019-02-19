@@ -59,6 +59,39 @@ class HtmlHelper
 
     public static function setOptions($options)
     {
+        if(!empty($options['accept'])){
+            if(strtolower($options['accept']) == 'pdf'){
+                $options['accept'] = 'application/pdf';
+                $options['allowed-file-type'] = 'application/pdf'; 
+                $options['allowed-file-ext']  = 'pdf';   
+            }
+            if(strtolower($options['accept'] == 'doc')){
+                $options['accept'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                $options['allowed-file-type'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'; 
+                $options['allowed-file-ext']  = 'docx';   
+            }
+            if(strtolower($options['accept'] == 'excel')){
+                $options['accept'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                $options['allowed-file-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'; 
+                $options['allowed-file-ext']  = 'xlsx';
+            }
+            if(strtolower($options['accept'] == 'ppt')){
+                $options['accept'] = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+                $options['allowed-file-type'] = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'; 
+                $options['allowed-file-ext']  = 'pptx';
+            }
+            if(strtolower($options['accept']) == 'png'){
+                $options['accept'] = 'image/png';
+                $options['allowed-file-type'] = 'image/png';    
+                $options['allowed-file-ext']  = 'png';
+            }
+            if(strtolower($options['accept']) == 'jpg'){
+                $options['accept'] = 'image/jpeg';
+                $options['allowed-file-type'] = 'image/jpeg';  
+                $options['allowed-file-ext']  = 'jpg';  
+            }
+            
+        }
         self::$options = $options;
     } 
 

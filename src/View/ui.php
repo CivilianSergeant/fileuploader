@@ -10,7 +10,7 @@ use Muhimel\Helper\HtmlHelper;
         ?>
         <style>
             body{
-                background:#a3dde6;
+                background:#f3f3f3;
             }
             input[type="file"]{
                 position: absolute;
@@ -33,6 +33,9 @@ use Muhimel\Helper\HtmlHelper;
                 padding-top:5px;
                 background:#fff;
             }
+            .text-danger{
+                color:red;
+            }
         </style>
         
     </head>
@@ -46,8 +49,9 @@ use Muhimel\Helper\HtmlHelper;
                         <button class="btn btn-info btn-sm" v-on:click="addFiles()">Add Files</button>
                     </div>
                     <input type="file" id="file" ref="files" accept="<?php echo HtmlHelper::getOption('accept')?>" multiple v-on:change="handleFileUpload()"/>
+                    <em>File Type (.{{allowedFileExt}})</em>
                 </label>
-                    
+                 <p class="text-danger" v-if="errorMessage">{{errorMessage}}</p>   
                 </div>
             
             </div>
@@ -56,9 +60,11 @@ use Muhimel\Helper\HtmlHelper;
                     <tbody>
                         <tr v-for="(file,index) in files" :key="index" >
                             <td class="position-relative" >
-                                <img v-if="file.isDOC" class="pull-left mb-2 mr-1" src="<?php echo HtmlHelper::getAssetPath('img/doc-512.png'); ?>"/>
-                                <img v-if="file.isPDF" class="pull-left mb-2 mr-1" src="<?php echo HtmlHelper::getAssetPath('img/pdf-512.png'); ?>"/>
-                                <img v-if="file.isIMG" class="pull-left mb-2 mr-1" :ref="'file-'+index" src="" />
+                                <img v-show="file.isPPT" class="pull-left mb-2 mr-1" src="<?php echo HtmlHelper::getAssetPath('img/ppt-512.png'); ?>"/>
+                                <img v-show="file.isXLS" class="pull-left mb-2 mr-1" src="<?php echo HtmlHelper::getAssetPath('img/xls-512.png'); ?>"/>
+                                <img v-show="file.isDOC" class="pull-left mb-2 mr-1" src="<?php echo HtmlHelper::getAssetPath('img/doc-512.png'); ?>"/>
+                                <img v-show="file.isPDF" class="pull-left mb-2 mr-1" src="<?php echo HtmlHelper::getAssetPath('img/pdf-512.png'); ?>"/>
+                                <img v-show="file.isIMG" class="pull-left mb-2 mr-1" :ref="'file-'+index" src="" />
                                 <span>{{file.name}}</span>
                                 <progress class="position-absolute" max="100" :ref="'file-progress-'+index" value="0" ></progress>
                                 <span class="text-danger ml-1" v-if="file.errorMessage">{{file.errorMessage}}</span>
@@ -83,6 +89,9 @@ use Muhimel\Helper\HtmlHelper;
                     files:[],
                     csrfToken:'<?php echo (HtmlHelper::getOption("csrf_token")) ?>',
                     uploadUrl:'<?php echo HtmlHelper::getUploadUrl() ?>',
+                    uploaderObject: '<?php echo HtmlHelper::getOption("uploader-object") ?>',
+                    allowedFileType:'<?php echo HtmlHelper::getOption("allowed-file-type") ?>',
+                    allowedFileExt:'<?php echo HtmlHelper::getOption("allowed-file-ext") ?>',
                     header:{
                         headers: {'X-CSRF-Token': this.csrfToken,'Content-Type': 'multipart/form-data'},
                         onUploadProgress: function( progressEvent ) {
@@ -101,19 +110,40 @@ use Muhimel\Helper\HtmlHelper;
                     },
                     renderThumbnail:function(file){
                         if(file.type.match('image') != null){
+
                             file.isIMG = true;
                             file.isPDF = false;
                             file.isDOC = false;
+                            file.isXLS = false;
+                            file.isPPT = false;
                         }
                         if(file.type.match('pdf') != null){
                             file.isIMG = false;
                             file.isPDF = true;
                             file.isDOC = false;
+                            file.isXLS = false;
+                            file.isPPT = false;
                         }
-                        if(file.type.match('doc') != null){
+                        if(file.type.match('wordprocessingml') != null){
                             file.isIMG = false;
                             file.isPDF = false;
                             file.isDOC = true;
+                            file.isXLS = false;
+                            file.isPPT = false;
+                        }
+                        if(file.type.match('spreadsheetml') != null){
+                            file.isIMG = false;
+                            file.isPDF = false;
+                            file.isDOC = false;
+                            file.isXLS = true;
+                            file.isPPT = false;
+                        }
+                        if(file.type.match('presentationml') != null){
+                            file.isIMG = false;
+                            file.isPDF = false;
+                            file.isDOC = false;
+                            file.isXLS = false;
+                            file.isPPT = true;
                         }
                     },
                     addFiles(){
@@ -161,12 +191,15 @@ use Muhimel\Helper\HtmlHelper;
                                     
                                     fileObj.uploadFlag=false;
                                 }
-                                
-                                fileObj.uploadFlag=true;
-                                this.files.push(fileObj);
-                                this.renderThumbnail(fileObj);
-                                reader.readAsDataURL(fileObj);
-                                
+                                if(fileObj.type == this.allowedFileType){
+                                    fileObj.uploadFlag=true;
+                                    this.files.push(fileObj);
+                                    reader.readAsDataURL(fileObj);
+                                    this.renderThumbnail(fileObj);
+                                    this.errorMessage = '';
+                                }else{
+                                    this.errorMessage = 'File type not matched';
+                                }
                             }
                         }
                     },
@@ -197,10 +230,7 @@ use Muhimel\Helper\HtmlHelper;
                                 this.files[index].errorMessage = res.data.message;  
                                 obj.$forceUpdate();
                             }else if(res.data.code==200){
-                                if(window.uploadedFiles == undefined){
-                                    window.uploadedFiles = [];
-                                }
-                                window.uploadedFiles.push(res.data.uploaded);
+                                window.parent.ProcessChildWindow(this.uploaderObject,res.data.uploaded);
                             }
                         }).catch(error=>{
 
