@@ -14,5 +14,5 @@ Uploader::getUI([
     'upload_url'=>'file-uploader/muhimel/fileuploader/tests/process.php',
     'csrf_token'=> 'testToken',
     'uploader-object' => 'abc',
-    'accept'=>'ppt'
+    'accept'=>'images'
 ]);

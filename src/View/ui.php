@@ -191,7 +191,8 @@ use Muhimel\Helper\HtmlHelper;
                                     
                                     fileObj.uploadFlag=false;
                                 }
-                                if(fileObj.type == this.allowedFileType){
+                                
+                                if(this._checkFileType(fileObj,this.allowedFileType)){
                                     fileObj.uploadFlag=true;
                                     this.files.push(fileObj);
                                     reader.readAsDataURL(fileObj);
@@ -200,8 +201,27 @@ use Muhimel\Helper\HtmlHelper;
                                 }else{
                                     this.errorMessage = 'File type not matched';
                                 }
+                               
                             }
                         }
+                    },
+                    _checkFileType:function(file,allowedType){
+                        let allowedTypeFlag = false;
+                        
+                        allowedTypes = allowedType.split(',');
+                        if(typeof allowedTypes == "string"){
+                            allowedTypeFlag = (allowedTypes == file['type'])? true : false; 
+                        }else{
+                            for(f in allowedTypes){
+                                if(allowedTypes[f] == file['type']){
+                                    allowedTypeFlag = true;
+                                    this.header.headers['allowedFileType'] = allowedType;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        return allowedTypeFlag;
                     },
                     submitFile:function(){
                         for(let f in this.files){
@@ -214,7 +234,7 @@ use Muhimel\Helper\HtmlHelper;
                         formData.append('file', file);
                         let obj = this;
                         axios.post(this.uploadUrl,formData,{
-                            headers: {'X-CSRF-Token': this.csrfToken,'Content-Type': 'multipart/form-data'},
+                            headers: {'X-CSRF-Token': this.csrfToken,'Allowed-File-Types':this.allowedFileType,'Content-Type': 'multipart/form-data'},
                             onUploadProgress: function( progressEvent ) {
                                 
                                 this.files[index].uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );

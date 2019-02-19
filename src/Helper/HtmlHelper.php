@@ -60,6 +60,16 @@ class HtmlHelper
     public static function setOptions($options)
     {
         if(!empty($options['accept'])){
+            if(strtolower($options['accept'] == 'images')){
+                $options['accept'] = 'image/jpeg,image/png,image/gif,image/bmp,image/jpg';
+                $options['allowed-file-type'] = $options['accept'];
+                $options['allowed-file-ext']  = 'jpg,.png,.gif,.bmp'; 
+            }
+            if(strtolower($options['accept'] == 'document')){
+                $options['accept'] = 'application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.presentationml.presentation';
+                $options['allowed-file-type'] = $options['accept'];
+                $options['allowed-file-ext']  = 'pdf,.docx,.xlsx,.pptx'; 
+            }
             if(strtolower($options['accept']) == 'pdf'){
                 $options['accept'] = 'application/pdf';
                 $options['allowed-file-type'] = 'application/pdf'; 
