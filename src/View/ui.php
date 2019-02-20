@@ -36,6 +36,7 @@ use Muhimel\Helper\HtmlHelper;
             .text-danger{
                 color:red;
             }
+            [v-cloak] { display:none; }
         </style>
         
     </head>
@@ -75,7 +76,7 @@ use Muhimel\Helper\HtmlHelper;
                     </tbody>
                 </table>
                 <hr/>
-                <button v-if="files.length" type="button" class="btn btn-info btn-sm pull-right" v-on:click="submitFile()">Upload All</button>
+                <button v-if="files.length" type="button" class="btn btn-info btn-sm pull-right" :disabled="disableUploadAll()" v-on:click="submitFile()">Upload All</button>
             </div>
         </div>
         <script>
@@ -98,7 +99,8 @@ use Muhimel\Helper\HtmlHelper;
                             //this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
                         }.bind(this)
                     },
-                    reader:null
+                    reader:null,
+                    uploadAllClicked:false
                 },
                 mounted:function(){
                     this.maxFileSize=5;
@@ -107,6 +109,9 @@ use Muhimel\Helper\HtmlHelper;
                 methods:{
                     clearMessage:function(){
                         this.errorMessage = '';
+                    },
+                    disableUploadAll:function(){
+                        return this.uploadAllClicked;
                     },
                     renderThumbnail:function(file){
                         if(file.type.match('image') != null){
@@ -174,7 +179,7 @@ use Muhimel\Helper\HtmlHelper;
                     },
                     handleFileUpload:function(){
                         this.clearMessage();
-        
+                        this.uploadAllClicked=false;
                         for(let f in this.$refs.files.files){
                             let fileObj = this.$refs.files.files[f];
                             let count = this.files.length;
@@ -224,6 +229,8 @@ use Muhimel\Helper\HtmlHelper;
                         return allowedTypeFlag;
                     },
                     submitFile:function(){
+                        event.preventDefault();
+                        this.uploadAllClicked = true;
                         for(let f in this.files){
                             this.uploadFile(f);
                         }
@@ -233,6 +240,10 @@ use Muhimel\Helper\HtmlHelper;
                         let formData = new FormData();
                         formData.append('file', file);
                         let obj = this;
+                        console.log(file.uploadPercentage);
+                        if(file.uploadPercentage != undefined && file.uploadPercentage>0){
+                            return;
+                        }
                         axios.post(this.uploadUrl,formData,{
                             headers: {'X-CSRF-Token': this.csrfToken,'Allowed-File-Types':this.allowedFileType,'Content-Type': 'multipart/form-data'},
                             onUploadProgress: function( progressEvent ) {

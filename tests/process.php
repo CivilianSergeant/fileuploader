@@ -4,7 +4,7 @@ use Muhimel\Uploader;
 use Muhimel\Interfaces\UploaderInterface;
 class EventListener implements UploaderInterface
 {
-    public function beforeUpload($file)
+    public function beforeUpload(&$file)
     {
         if(empty($file)){
             echo json_encode(array(
@@ -23,9 +23,9 @@ class EventListener implements UploaderInterface
         }
     }
 
-    public function afterUpload($file, $uploadedFilename)
+    public function afterUpload($file)
     {
-        echo 'after'.$uploadedFilename;
+        print_r($file);exit;
     }
 } 
 
