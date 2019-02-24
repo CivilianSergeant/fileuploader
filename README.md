@@ -1,7 +1,7 @@
 # FILE UPLOADER
 This is a little file uploading app
 ## Requirements
-PHP >= 5
+PHP >= 5.3.2
 
 Vue.js v2
 
