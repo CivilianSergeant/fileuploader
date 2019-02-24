@@ -1,8 +1,9 @@
 # FILE UPLOADER
 This is a little file uploading app
 ## Requirements
-Vue.js 
-axios.js
+PHP >= 5
+
+Vue.js v2
 
 ## Usage
 Add muhimel/fileuploader:"v1.1.1.1-dev" line at the require section of composer.json file in your project
