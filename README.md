@@ -42,8 +42,8 @@ HtmlHelper::setAsset('js/axios/axios.min.js');
 Uploader::getUI([
     'base_url'=> $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/',
     'upload_url'=>'path/to/process.php',
-    'csrf_token'=> 'testToken',
-    'uploader-object' => 'abc',
+    'csrf_token'=> 'csrf-token',
+    'uploader-object' => 'uploaderObjectName', //optional
     'accept'=>'images' // use document to allow (.docx,.xlsx,.pptx,pdf) or use images to allow (.png,.jpg,.bmp,.gif)
 ]);
 ```
