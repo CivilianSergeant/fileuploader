@@ -3,7 +3,9 @@ This is a little file uploading app
 ## Requirements
 PHP >= 5.3.2
 
-Vue.js v2
+Vue Js v2
+
+Axios JS
 
 ## Usage
 Add muhimel/fileuploader:"v1.1.1.0-dev" line at the require section of composer.json file in your project
@@ -25,6 +27,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 use Muhimel\Uploader;
 use Muhimel\Helper\HtmlHelper;
 
+// Make sure all asset and asset path contain following files in your project 
 HtmlHelper::setAssetPath('../src/assets/');
 HtmlHelper::setAsset('css/bootstrap.min.css');
 HtmlHelper::setAsset('css/custom.css');
