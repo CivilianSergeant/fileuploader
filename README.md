@@ -19,6 +19,11 @@ then run the following command
 ```
 composer update
 ```
+or just run following command to install this package in your project
+
+```
+composer require --dev muhimel/fileuploader "v1.1.1.0-dev"
+```
 
 To display the uploader ui
 
