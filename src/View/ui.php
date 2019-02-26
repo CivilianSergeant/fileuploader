@@ -69,7 +69,7 @@ use Muhimel\Helper\HtmlHelper;
                                 <span>{{file.name}}</span>
                                 <progress class="position-absolute" max="100" :ref="'file-progress-'+index" value="0" ></progress>
                                 <span class="text-danger ml-1" v-if="file.errorMessage">{{file.errorMessage}}</span>
-                                <button type="button" class="btn btn-danger btn-sm pull-right  ml-1" @click="removeFile(index)" >X</button>
+                                <button v-if="file.uploadFlag" type="button" class="btn btn-danger btn-sm pull-right  ml-1" @click="removeFile(index)" >X</button>
                                 <button v-if="file.uploadFlag"  type="button" class="btn btn-success btn-sm pull-right" @click="uploadFile(index)" >Upload</button>
                             </td>
                         </tr>
@@ -175,7 +175,7 @@ use Muhimel\Helper\HtmlHelper;
                                     this.$refs['file-'+index][0].src=this.files[index].src;
                                 }
                             }
-                        },10);
+                        },250);
                     },
                     handleFileUpload:function(){
                         this.clearMessage();
