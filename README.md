@@ -12,7 +12,7 @@ Add muhimel/fileuploader:"v1.1.1.0-dev" line at the require section of composer.
 
 ```
 require:{
-  muhimel/fileuploader:"v1.1.1.0-dev"
+  "muhimel/fileuploader":"v1.1.1.0-dev"
 }
 ```
 then run the following command 
@@ -69,5 +69,7 @@ class EventListener implements UploaderInterface
     }
 } 
 
+$targetDir = ''; // absolute path to upload directory
+Uploader::setOptions(['target_dir'=>$targetDir]);
 Uploader::upload(new EventListener);
 ```
