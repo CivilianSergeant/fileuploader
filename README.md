@@ -178,12 +178,12 @@ Now in which page you want to add uploader write following html tags and attribu
 	<uploader style="margin-top:6px;" 
 	    :btncss="'btn btn-default btn-success'" 
 	    :btnname="'Button Name'" 
-	    :route="route" 
-	    :dir="dir" 
-	    :accept="accept" 
-	    :category="category" 
+	    :route="'file-upload/upload" 
+	    :dir="'default'" 
+	    :accept="'images'" 
+	    :category="'category-name'" 
 	    :uploadedfiles="handleUploader"
-	    :selectiontype="selectionType">
+	    :selectiontype="'single'">
 	</uploader>
 </div>
 ```
