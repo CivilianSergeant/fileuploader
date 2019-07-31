@@ -171,8 +171,25 @@ public function afterUpload($file)
 }
 
 ```
+Now in which page you want to add uploader write following html tags and attributes
+
+```
+<div id="root">
+	<uploader style="margin-top:6px;" 
+	    :btncss="'btn btn-default btn-success'" 
+	    :btnname="'Button Name'" 
+	    :route="route" 
+	    :dir="dir" 
+	    :accept="accept" 
+	    :category="category" 
+	    :uploadedfiles="handleUploader"
+	    :selectiontype="selectionType">
+	</uploader>
+</div>
+```
+
 Make sure you have uploader.js file under webroot/js/ or plugins/pluginname/webroot/js/
-also make sure have following method under your pagewise custom.js 
+also make sure have following method under your pagewise custom.js methods section
 
 ```
 handleUploader:function(uploadedFiles){
