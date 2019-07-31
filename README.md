@@ -192,6 +192,11 @@ Now in which page you want to add uploader write following html tags and attribu
 
 | *route*   | `route` value should be plugin_name/controller_name
 
+| Attribute | Description | Right-aligned |
+| :---         |     :---:      |          ---: |
+| git status   | git status     | git status    |
+| **route**     | `route` value should be plugin_name/controller_name       | git diff      |
+
 Make sure you have uploader.js file under webroot/js/ or plugins/pluginname/webroot/js/
 also make sure have following method under your pagewise custom.js methods section
 
