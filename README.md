@@ -29,11 +29,11 @@ composer require --dev muhimel/fileuploader "v1.1.1.0-dev"
 // recommanded to use this command so composer will only install this library
 // will not update other library used in the project
 ```
-create a plugin name(ex. FileUploader)
 
 copy assets dir from vendor/muhimel/fileuploader/src 
 create a dir name(uploader) under webroot and paste assets dir under uploader dir
 
+Create a plugin name(ex. FileUploader)
 Now Create UploadController within FileUploader Plugin
 
 make sure you add following namespaces
@@ -45,7 +45,8 @@ use Muhimel\Interfaces\UploaderInterface;
 
 Now within UploadController create index method and write following code
 controller should implement UploaderInterface interface;
-        	
+
+```     
 public function index($category,$accept,$suffix=null,$selectionType="single"){
     
     // change base url
@@ -66,10 +67,11 @@ public function index($category,$accept,$suffix=null,$selectionType="single"){
 				'accept'=> $accept // use document to allow (.docx,.xlsx,.pptx,pdf) or use images to allow (.png,.jpg,.bmp,.gif)
 	]);
 }
-
+```
 
 Now Write process method within UploadController
 
+```
 public function process($category,$suffix=null)
 {
 	$this->category = $category;
@@ -84,9 +86,11 @@ public function process($category,$suffix=null)
 	}
 	exit;
 }
+```
 
-Write following 2 hook methods in UploadController
+Write following 2 listener methods in UploadController
 
+```
 public function beforeUpload(&$file)
 {
     // file upload error checking and error message
@@ -165,10 +169,15 @@ public function afterUpload($file)
     exit;
 }
 
+```
+
 Make sure you have uploader.js file under plugins/ThemeAdmin/webroot/js/
 also make sure have following method under your pagewise custom.js 
 
+```
 handleUploader:function(uploadedFiles){
     // all uploaded file information will be available in uploadedFiles 
     // handle your own code here 
 }
+```
+
