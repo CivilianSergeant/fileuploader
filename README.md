@@ -33,9 +33,9 @@ composer require --dev muhimel/fileuploader "v1.1.1.0-dev"
 Copy assets directory from vendor/muhimel/fileuploader/src 
 Create a dir name(uploader) under webroot and paste assets directory under uploader directory
 
-Create a plugin name(ex. FileUploader)
+Create a plugin name(ex. FileUpload)
 
-Now Create UploadController within FileUploader Plugin
+Now Create UploadController within FileUpload Plugin
 
 make sure you add following namespaces
 ```
