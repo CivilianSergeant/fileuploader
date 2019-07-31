@@ -191,7 +191,7 @@ Now in which page you want to add uploader write following html tags and attribu
 | ---      | ---       |
 | route | plugin_name/controller_name         |
 | dir     | Directory name        |
-| accept     | Possible values are document, images        |
+| accept     | Possible values are document, images , pdf, excel, doc, ppt, png, jpg        |
 | category     | Cateogry name       |
 | selectiontype     | single or multiple        |
 
