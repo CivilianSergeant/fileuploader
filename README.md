@@ -36,10 +36,11 @@ create a dir name(uploader) under webroot and paste assets dir under uploader di
 Now Create UploadController within FileUploader Plugin
 
 make sure you add following namespaces
-
+```
 use Muhimel\Uploader;
 use Muhimel\Helper\HtmlHelper;
 use Muhimel\Interfaces\UploaderInterface;
+```
 
 Now within UploadController create index method and write following code
 controller should implement UploaderInterface interface;
