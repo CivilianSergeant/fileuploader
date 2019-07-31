@@ -187,8 +187,13 @@ Now in which page you want to add uploader write following html tags and attribu
 	</uploader>
 </div>
 ```
-
-| Attribute | Description |
+| Name     | Character |
+| ---      | ---       |
+| Backtick | `         |
+| Pipe     | \|        |
+| Pipe     | \|        |
+| Pipe     | \|        |
+| Pipe     | \|        |
 
 Make sure you have uploader.js file under webroot/js/ or plugins/pluginname/webroot/js/
 also make sure have following method under your pagewise custom.js methods section
