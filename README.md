@@ -30,8 +30,8 @@ composer require --dev muhimel/fileuploader "v1.1.1.0-dev"
 // will not update other library used in the project
 ```
 
-copy assets dir from vendor/muhimel/fileuploader/src 
-create a dir name(uploader) under webroot and paste assets dir under uploader dir
+Copy assets directory from vendor/muhimel/fileuploader/src 
+Create a dir name(uploader) under webroot and paste assets directory under uploader directory
 
 Create a plugin name(ex. FileUploader)
 
@@ -171,13 +171,12 @@ public function afterUpload($file)
 }
 
 ```
-
-Make sure you have uploader.js file under plugins/ThemeAdmin/webroot/js/
+Make sure you have uploader.js file under webroot/js/ or plugins/pluginname/webroot/js/
 also make sure have following method under your pagewise custom.js 
 
 ```
 handleUploader:function(uploadedFiles){
-    // all uploaded file information will be available in uploadedFiles 
+    // all uploaded file information will be available in uploadedFiles array
     // handle your own code here 
 }
 ```
