@@ -7,28 +7,28 @@ Vue Js v2
 
 Axios JS
 
-## Usage
+## Usage 
 
-IF project contain composer.json then follow the process
-=
+# For CakePHP
+
+
 
 open composer.json from project root and add following line
------------------------------------------------------------
+```
 require:{
   "muhimel/fileuploader":"v1.1.1.0-dev"
 }
-
+```
  run the following command from terminal (from project root)
------------------------------------------------------------
+`
 composer update
+`
 or
-recommanded to use this command so composer will only install this library
-will not update other library used in the project
-
+`
 composer require --dev muhimel/fileuploader "v1.1.1.0-dev"
-
-For CakePHP
-
+// recommanded to use this command so composer will only install this library
+// will not update other library used in the project
+`
 create a plugin name(ex. FileUploader)
 
 copy assets dir from vendor/muhimel/fileuploader/src 
