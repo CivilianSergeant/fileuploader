@@ -20,15 +20,15 @@ require:{
 }
 ```
  run the following command from terminal (from project root)
-`
+```
 composer update
-`
+```
 or
-`
+```
 composer require --dev muhimel/fileuploader "v1.1.1.0-dev"
 // recommanded to use this command so composer will only install this library
 // will not update other library used in the project
-`
+```
 create a plugin name(ex. FileUploader)
 
 copy assets dir from vendor/muhimel/fileuploader/src 
